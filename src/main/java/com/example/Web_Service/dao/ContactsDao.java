@@ -15,7 +15,7 @@ public interface ContactsDao {
 
     //Queries
     public List <Contact> findAll () throws DaoException;
-    public List<Contact> findByCity () throws DaoException;
-    public List<Contact> findByCountry () throws DaoException;
+    public List<Contact> findByCity (String city) throws DaoException;
+    public List<Contact> findByCountry (String country) throws DaoException;
 
 }

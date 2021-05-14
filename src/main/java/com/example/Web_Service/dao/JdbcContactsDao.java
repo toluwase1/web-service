@@ -6,7 +6,9 @@ import com.example.Web_Service.utils.DbUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcContactsDao implements ContactsDao{
@@ -49,21 +51,28 @@ public class JdbcContactsDao implements ContactsDao{
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                Contact contact = new Contact();
-                contact.setId(resultSet.getInt("id"));
-                contact.setName(resultSet.getString("name"));
-                contact.setGender(resultSet.getString("gender"));
-                contact.setEmail(resultSet.getString("email"));
-                contact.setPhone(resultSet.getString("phone"));
-                contact.setCity(resultSet.getString("city"));
-                contact.setCountry(resultSet.getString("country"));
+                Contact contact = toContact(resultSet);
+                return contact;
             }
-
+            resultSet.close();
         } catch (Exception e) {
-            throw new DaoException("");
+            throw new DaoException(e);
         }
 
         return null;
+    }
+
+    private Contact toContact(ResultSet resultSet) throws SQLException {
+        Contact contact = new Contact();
+        contact.setId(resultSet.getInt("id"));
+        contact.setName(resultSet.getString("name"));
+        contact.setGender(resultSet.getString("gender"));
+        contact.setEmail(resultSet.getString("email"));
+        contact.setPhone(resultSet.getString("phone"));
+        contact.setCity(resultSet.getString("city"));
+        contact.setCountry(resultSet.getString("country"));
+        resultSet.close();
+        return contact;
     }
 
     @Override
@@ -115,16 +124,60 @@ public class JdbcContactsDao implements ContactsDao{
 
     @Override
     public List<Contact> findAll() throws DaoException {
-        return null;
+        String sql = "select * from contacts";
+        List<Contact> list = new ArrayList<>();
+        try (
+                Connection connection = DbUtils.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()
+                ) {
+            while (resultSet.next()) {
+                Contact contact = toContact(resultSet);
+                list.add(contact);
+            }
+        } catch (Exception e) {
+                throw new DaoException();
+        }
+        return list;
     }
 
     @Override
-    public List<Contact> findByCity() throws DaoException {
-        return null;
+    public List<Contact> findByCity(String city) throws DaoException {
+        String sql = "select * from contact where city = ?";
+        List<Contact> list = new ArrayList<>();
+        try (
+                Connection connection = DbUtils.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
+        ) {
+            statement.setString(1, city);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Contact contact = toContact(resultSet);
+                list.add(contact);
+            }
+        } catch (Exception e) {
+            throw new DaoException();
+        }
+        return list;
     }
 
     @Override
-    public List<Contact> findByCountry() throws DaoException {
-        return null;
+    public List<Contact> findByCountry(String country) throws DaoException {
+        String sql = "select * from contact where country = ?";
+        List<Contact> list = new ArrayList<>();
+        try (
+                Connection connection = DbUtils.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
+        ) {
+            statement.setString(1, country);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Contact contact = toContact(resultSet);
+                list.add(contact);
+            }
+        } catch (Exception e) {
+            throw new DaoException();
+        }
+        return list;
     }
 }
