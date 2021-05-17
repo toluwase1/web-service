@@ -22,6 +22,9 @@ public final class DbUtils {
     }
 
     public static Connection getConnection () throws ClassNotFoundException, SQLException {
+        System.out.println(
+                driver
+        );
         Class.forName(driver);
         return DriverManager.getConnection(url, user, password);
     }

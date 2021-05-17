@@ -72,7 +72,7 @@ public class ContactsResource {
         return  Response.ok(contactsDao.findAll()).build();
     }
 
-    @Path("/{contact_id}")
+    @Path("/find/{contact_id}")
     @Produces({"application/json"})
     @GET
     public Response getOneContact (@PathParam("contact_id") Integer id) throws DaoException {

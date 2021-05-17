@@ -1,6 +1,7 @@
 package com.example.Web_Service.dao;
 
 import com.example.Web_Service.entity.Contact;
+import com.example.Web_Service.utils.DbUtils;
 //import com.example.Web_Service.utils.DbUtils;
 
 import java.sql.Connection;
@@ -80,7 +81,11 @@ public class JdbcContactsDao implements ContactsDao{
 
         String sql = "select * from contacts where id = ?";
         try (
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/webservice", "root", "toluwase");
+                Connection connection = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/webservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+                        "root",
+                        "toluwase");
+//                Connection connection = DbUtils.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
         ) {
             statement.setInt(1, id);
@@ -269,7 +274,10 @@ public class JdbcContactsDao implements ContactsDao{
         String sql = "select * from contact where city = ?";
         List<Contact> list = new ArrayList<>();
         try (
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/webservice", "root", "toluwase");
+                Connection connection = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/webservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+                        "root",
+                        "toluwase");
                 PreparedStatement statement = connection.prepareStatement(sql);
         ) {
             statement.setString(1, city);
