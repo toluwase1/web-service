@@ -1,0 +1,8 @@
+com/example/Web_Service/dao/ContactsDao.class
+com/example/Web_Service/dao/DaoException.class
+com/example/Web_Service/entity/Contact.class
+com/example/Web_Service/utils/DbUtils.class
+com/example/Web_Service/resources/ContactsResource.class
+com/example/Web_Service/dao/JdbcContactsDao.class
+com/example/Web_Service/resources/HelloResource.class
+com/example/Web_Service/dao/DaoFactory.class

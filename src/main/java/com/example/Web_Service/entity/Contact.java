@@ -10,7 +10,6 @@ public class Contact {
     private String country;
 
     public Contact () {
-
     }
 
 

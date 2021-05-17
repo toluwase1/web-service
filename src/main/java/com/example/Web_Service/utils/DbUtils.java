@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 // final so the class cannot be inherited
 public final class DbUtils {
-    private static String driver, url, user, password;
+    private static final String driver, url, user, password;
 
     //private constructor so they cant be instantiated
     private DbUtils() {
